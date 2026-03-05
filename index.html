@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing Health Diagnostic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #012333;
+      --surface: #403D3D;
+      --surface-elevated: rgba(64, 61, 61, 0.6);
+      --border: rgba(199, 199, 199, 0.15);
+      --text: #C7C7C7;
+      --text-muted: rgba(199, 199, 199, 0.75);
+      --accent: #BAA36C;
+      --accent-dim: rgba(186, 163, 108, 0.2);
+      --radius: 6px;
+      --transition: 0.25s ease;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Public Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+      font-weight: 400;
+    }
+    .app {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 4rem;
+    }
+    .calibration {
+      margin-bottom: 2.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .calibration h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin: 0 0 1rem;
+    }
+    .calibration h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 1.5rem 0 0.5rem;
+      letter-spacing: 0.02em;
+    }
+    .calibration h2:first-of-type { margin-top: 0; }
+    .calibration p {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+    .report-outcome {
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 2.5rem;
+    }
+    .report-outcome p { margin: 0; font-size: 0.9375rem; color: var(--text); }
+    .report-outcome strong { color: var(--accent); font-weight: 600; }
+    .dimensions {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .dimension {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    .dimension:hover {
+      border-color: rgba(186, 163, 108, 0.35);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+    }
+    .dimension h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 0 0 1rem;
+      letter-spacing: 0.02em;
+    }
+    .form-group { margin-bottom: 1rem; }
+    .form-group:last-child { margin-bottom: 0; }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    label {
+      display: block;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+    input[type="number"],
+    input[type="text"],
+    input[type="email"] {
+      width: 100%;
+      padding: 0.65rem 0.85rem;
+      font-family: 'Public Sans', sans-serif;
+      font-size: 0.9375rem;
+      background: rgba(1, 35, 51, 0.5);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    input::placeholder { color: var(--text-muted); opacity: 0.8; }
+    input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px var(--accent-dim);
+    }
+    .lead-section {
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .lead-section h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 0 0 1.25rem;
+      letter-spacing: 0.02em;
+    }
+    .lead-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 540px) {
+      .form-row, .lead-grid { grid-template-columns: 1fr; }
+    }
+    .submit-wrap { margin-top: 2rem; }
+    button[type="submit"] {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      font-family: 'Public Sans', sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      background: var(--accent);
+      color: #012333;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: background var(--transition), transform 0.1s ease;
+      letter-spacing: 0.02em;
+    }
+    button[type="submit"]:hover { background: #c9b87d; }
+    button[type="submit"]:active { transform: scale(0.99); }
+    button[type="submit"]:disabled { opacity: 0.7; cursor: not-allowed; }
+    .confirmation {
+      display: none;
+      text-align: center;
+      padding: 3rem 1.5rem;
+    }
+    .confirmation.visible { display: block; }
+    .confirmation h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 0 0 1.5rem;
+      letter-spacing: 0.02em;
+    }
+    .confirmation p {
+      font-size: 1rem;
+      color: var(--text);
+      max-width: 480px;
+      margin: 0 auto 1rem;
+      line-height: 1.7;
+    }
+    .confirmation p:last-child {
+      margin-bottom: 0;
+      color: var(--text-muted);
+      font-size: 0.9375rem;
+    }
+    .diagnostic-form.hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <section class="calibration" aria-label="Calibration">
+      <h1>Pricing Health Diagnostic</h1>
+      <p>An analytical instrument that evaluates the economic integrity of your pricing model. The following calibration explains the methodology and how your responses are used.</p>
+      <h2>What this analysis measures</h2>
+      <p>Delivery cost integrity, operating structure resilience, profit model sustainability, market positioning coherence, and revenue architecture. Together these dimensions indicate whether your current pricing supports sustainable growth.</p>
+      <h2>Why this structural signal matters</h2>
+      <p>Pricing that is misaligned with costs and market position creates hidden risk: margin erosion, break-even fragility, and decision ownership gaps between commercial and finance. This diagnostic surfaces those patterns before they become operational crises.</p>
+      <h2>What the responses will be used to evaluate</h2>
+      <p>Your inputs are analysed against established benchmarks and structural norms. The evaluation identifies key structural risks, decision ownership gaps, and areas of operational fragility specific to the scores derived from your data—not generic advice.</p>
+    </section>
+
+    <section class="report-outcome" aria-label="Report outcome">
+      <p><strong>You will receive a world-class diagnostic report by email.</strong> Your responses are analysed off-screen; no results are displayed here. The report interprets your inputs across these dimensions, highlights structural patterns, and provides targeted guidance—delivered to your inbox within 24 hours.</p>
+    </section>
+
+    <form id="diagnosticForm" class="diagnostic-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <div class="dimensions">
+        <div class="dimension">
+          <h3>Revenue Architecture</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="unitPrice">Selling price per unit</label>
+              <input type="number" id="unitPrice" name="unit_price" min="0" step="0.01" value="100" required>
+            </div>
+            <div class="form-group">
+              <label for="volume">Expected monthly volume (units)</label>
+              <input type="number" id="volume" name="volume" min="0" step="1" value="500" required>
+            </div>
+          </div>
+        </div>
+        <div class="dimension">
+          <h3>Delivery Cost Integrity</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cogs">Cost of goods sold per unit (COGS)</label>
+              <input type="number" id="cogs" name="cogs_per_unit" min="0" step="0.01" value="35">
+            </div>
+            <div class="form-group">
+              <label for="variableCost">Other variable cost per unit</label>
+              <input type="number" id="variableCost" name="variable_cost_per_unit" min="0" step="0.01" value="10">
+            </div>
+          </div>
+        </div>
+        <div class="dimension">
+          <h3>Operating Structure Resilience</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fixedCosts">Fixed costs per month</label>
+              <input type="number" id="fixedCosts" name="fixed_costs_monthly" min="0" step="0.01" value="15000">
+            </div>
+            <div class="form-group">
+              <label for="overheadPct">Overhead / indirect cost (% of revenue)</label>
+              <input type="number" id="overheadPct" name="overhead_pct" min="0" max="100" step="0.1" value="10">
+            </div>
+          </div>
+        </div>
+        <div class="dimension">
+          <h3>Profit Model Sustainability</h3>
+          <div class="form-group">
+            <label for="targetMargin">Target profit margin (%)</label>
+            <input type="number" id="targetMargin" name="target_margin_pct" min="0" max="100" step="0.1" value="20">
+          </div>
+        </div>
+        <div class="dimension">
+          <h3>Market Positioning Coherence</h3>
+          <div class="form-group">
+            <label for="benchmarkPrice">Market benchmark price (optional)</label>
+            <input type="number" id="benchmarkPrice" name="benchmark_price" min="0" step="0.01" placeholder="Leave blank if not applicable">
+          </div>
+        </div>
+      </div>
+      <section class="lead-section">
+        <h3>Receive your diagnostic report</h3>
+        <div class="lead-grid">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required placeholder="Full name">
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required placeholder="Email address">
+          </div>
+          <div class="form-group">
+            <label for="company">Company</label>
+            <input type="text" id="company" name="company" required placeholder="Company name">
+          </div>
+          <div class="form-group">
+            <label for="position">Position</label>
+            <input type="text" id="position" name="position" required placeholder="Job title / position">
+          </div>
+        </div>
+      </section>
+      <div class="submit-wrap">
+        <button type="submit" id="submitBtn">Submit for diagnostic report</button>
+      </div>
+    </form>
+
+    <section class="confirmation" id="confirmation" aria-live="polite">
+      <h2>Your analysis has been received.</h2>
+      <p>The report will be delivered by Kaylee-Jane within 24 hours.</p>
+    </section>
+  </div>
+
+  <script>
+    (function () {
+      var form = document.getElementById('diagnosticForm');
+      var confirmation = document.getElementById('confirmation');
+      var submitBtn = document.getElementById('submitBtn');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting…';
+        var formData = new FormData(form);
+        var company = (form.querySelector('[name="company"]') || {}).value || 'Unknown';
+        var name = (form.querySelector('[name="name"]') || {}).value || 'Unknown';
+        var email = (form.querySelector('[name="email"]') || {}).value || '';
+        formData.set('_subject', 'Pricing Health Diagnostic – ' + company + ' – ' + name);
+        if (email) formData.set('_replyto', email);
+        var action = form.getAttribute('action');
+        fetch(action, {
+          method: 'POST',
+          body: formData,
+          headers: { Accept: 'application/json' }
+        })
+          .then(function (res) {
+            if (res.ok) {
+              form.classList.add('hidden');
+              confirmation.classList.add('visible');
+            } else {
+              return res.json().then(function (data) {
+                throw new Error(data.error || 'Submission failed');
+              });
+            }
+          })
+          .catch(function (err) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit for diagnostic report';
+            alert(err.message || 'Something went wrong. Please try again.');
+          });
+      });
+    })();
+  </script>
+</body>
+</html>
