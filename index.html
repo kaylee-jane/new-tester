@@ -3,340 +3,524 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pricing Health Diagnostic</title>
+  <title>Hiring Readiness Analysis</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #012333;
-      --surface: #403D3D;
-      --surface-elevated: rgba(64, 61, 61, 0.6);
-      --border: rgba(199, 199, 199, 0.15);
+      --bg-dark: #012333;
+      --bg-warm: #403D3D;
       --text: #C7C7C7;
-      --text-muted: rgba(199, 199, 199, 0.75);
       --accent: #BAA36C;
-      --accent-dim: rgba(186, 163, 108, 0.2);
-      --radius: 6px;
-      --transition: 0.25s ease;
+      --accent-hover: #d4bc7a;
+      --border: rgba(186, 163, 108, 0.35);
+      --card-bg: rgba(1, 35, 51, 0.6);
     }
-    * { box-sizing: border-box; }
-    body {
+
+    * {
+      box-sizing: border-box;
       margin: 0;
-      font-family: 'Public Sans', system-ui, sans-serif;
-      background: var(--bg);
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Public Sans', -apple-system, sans-serif;
+      background: var(--bg-dark);
       color: var(--text);
       min-height: 100vh;
       line-height: 1.6;
       font-weight: 400;
     }
-    .app {
+
+    .container {
       max-width: 720px;
       margin: 0 auto;
       padding: 3rem 1.5rem 4rem;
     }
-    .calibration {
-      margin-bottom: 2.5rem;
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
       padding-bottom: 2rem;
       border-bottom: 1px solid var(--border);
     }
-    .calibration h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      color: var(--text);
-      margin: 0 0 1rem;
-    }
-    .calibration h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1rem;
-      font-weight: 600;
+
+    .eyebrow {
+      font-family: 'Public Sans', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
       color: var(--accent);
-      margin: 1.5rem 0 0.5rem;
-      letter-spacing: 0.02em;
+      margin-bottom: 0.75rem;
     }
-    .calibration h2:first-of-type { margin-top: 0; }
-    .calibration p {
-      font-size: 0.9375rem;
-      color: var(--text-muted);
-      margin: 0;
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.85rem, 4vw, 2.5rem);
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
     }
-    .report-outcome {
-      background: var(--surface-elevated);
+
+    .tagline {
+      font-size: 0.95rem;
+      color: var(--text);
+      margin-top: 1rem;
+      max-width: 540px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Calibration section */
+    .calibration {
+      background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.5rem 1.75rem;
+      padding: 2rem;
       margin-bottom: 2.5rem;
     }
-    .report-outcome p { margin: 0; font-size: 0.9375rem; color: var(--text); }
-    .report-outcome strong { color: var(--accent); font-weight: 600; }
-    .dimensions {
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
+
+    .calibration h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 1.25rem;
+      letter-spacing: 0.02em;
     }
+
+    .calibration p {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .calibration p:last-child {
+      margin-bottom: 0;
+    }
+
+    .calibration strong {
+      color: #fff;
+      font-weight: 500;
+    }
+
+    /* Dimensions */
+    .dimensions-intro {
+      margin-bottom: 2rem;
+    }
+
+    .dimensions-intro h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .dimensions-intro p {
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
     .dimension {
-      background: var(--surface);
+      background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem 1.5rem;
-      transition: border-color var(--transition), box-shadow var(--transition);
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 1.25rem;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
+
     .dimension:hover {
-      border-color: rgba(186, 163, 108, 0.35);
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+      border-color: rgba(186, 163, 108, 0.5);
+      box-shadow: 0 0 0 1px rgba(186, 163, 108, 0.15);
     }
-    .dimension h3 {
+
+    .dimension-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .dimension-name {
       font-family: 'Playfair Display', serif;
       font-size: 1rem;
       font-weight: 600;
+      color: #fff;
+    }
+
+    .dimension-value {
+      font-family: 'Public Sans', sans-serif;
+      font-size: 0.8rem;
       color: var(--accent);
-      margin: 0 0 1rem;
-      letter-spacing: 0.02em;
+      font-weight: 500;
     }
-    .form-group { margin-bottom: 1rem; }
-    .form-group:last-child { margin-bottom: 0; }
-    .form-row {
+
+    .dimension-desc {
+      font-size: 0.8rem;
+      color: var(--text);
+      opacity: 0.9;
+      margin-bottom: 0.75rem;
+    }
+
+    /* Slider */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      background: rgba(199, 199, 199, 0.15);
+      border-radius: 3px;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background: var(--accent);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      background: var(--accent-hover);
+      transform: scale(1.08);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      background: var(--accent);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .scale-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      color: var(--text);
+      opacity: 0.7;
+      margin-top: 0.35rem;
+    }
+
+    /* Report outcome */
+    .report-outcome {
+      background: linear-gradient(135deg, rgba(186, 163, 108, 0.12) 0%, rgba(186, 163, 108, 0.04) 100%);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      margin: 2.5rem 0;
+    }
+
+    .report-outcome h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .report-outcome p {
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    /* Form */
+    .form-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 1.25rem;
+    }
+
+    .form-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
+      gap: 1.25rem;
+      margin-bottom: 1.5rem;
     }
+
     label {
       display: block;
-      font-size: 0.8125rem;
+      font-size: 0.8rem;
       font-weight: 500;
-      color: var(--text-muted);
+      color: var(--text);
       margin-bottom: 0.4rem;
+      letter-spacing: 0.02em;
     }
-    input[type="number"],
+
     input[type="text"],
     input[type="email"] {
       width: 100%;
-      padding: 0.65rem 0.85rem;
+      padding: 0.85rem 1rem;
       font-family: 'Public Sans', sans-serif;
-      font-size: 0.9375rem;
-      background: rgba(1, 35, 51, 0.5);
+      font-size: 0.95rem;
+      color: #fff;
+      background: rgba(64, 61, 61, 0.5);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      color: var(--text);
-      transition: border-color var(--transition), box-shadow var(--transition);
+      border-radius: 0;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-    input::placeholder { color: var(--text-muted); opacity: 0.8; }
+
+    input::placeholder {
+      color: rgba(199, 199, 199, 0.45);
+    }
+
     input:focus {
       outline: none;
       border-color: var(--accent);
-      box-shadow: 0 0 0 2px var(--accent-dim);
+      box-shadow: 0 0 0 1px var(--accent);
     }
-    .lead-section {
-      margin-top: 2.5rem;
-      padding-top: 2rem;
-      border-top: 1px solid var(--border);
-    }
-    .lead-section h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.125rem;
-      font-weight: 600;
-      color: var(--accent);
-      margin: 0 0 1.25rem;
-      letter-spacing: 0.02em;
-    }
-    .lead-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-    @media (max-width: 540px) {
-      .form-row, .lead-grid { grid-template-columns: 1fr; }
-    }
-    .submit-wrap { margin-top: 2rem; }
+
     button[type="submit"] {
       width: 100%;
       padding: 1rem 1.5rem;
       font-family: 'Public Sans', sans-serif;
-      font-size: 0.9375rem;
+      font-size: 0.95rem;
       font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--bg-dark);
       background: var(--accent);
-      color: #012333;
       border: none;
-      border-radius: var(--radius);
       cursor: pointer;
-      transition: background var(--transition), transform 0.1s ease;
-      letter-spacing: 0.02em;
+      transition: background 0.2s, transform 0.1s;
     }
-    button[type="submit"]:hover { background: #c9b87d; }
-    button[type="submit"]:active { transform: scale(0.99); }
-    button[type="submit"]:disabled { opacity: 0.7; cursor: not-allowed; }
-    .confirmation {
+
+    button[type="submit"]:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    button[type="submit"]:active {
+      transform: translateY(0);
+    }
+
+    button[type="submit"]:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Success state - replaces form */
+    .success-message {
       display: none;
       text-align: center;
-      padding: 3rem 1.5rem;
+      padding: 3rem 2rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
     }
-    .confirmation.visible { display: block; }
-    .confirmation h2 {
+
+    .success-message.visible {
+      display: block;
+    }
+
+    .success-message h2 {
       font-family: 'Playfair Display', serif;
       font-size: 1.5rem;
       font-weight: 600;
       color: var(--accent);
-      margin: 0 0 1.5rem;
-      letter-spacing: 0.02em;
+      margin-bottom: 1.5rem;
     }
-    .confirmation p {
-      font-size: 1rem;
+
+    .success-message p {
+      font-size: 0.95rem;
       color: var(--text);
-      max-width: 480px;
-      margin: 0 auto 1rem;
-      line-height: 1.7;
+      margin-bottom: 1rem;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
     }
-    .confirmation p:last-child {
+
+    .success-message p:last-of-type {
       margin-bottom: 0;
-      color: var(--text-muted);
-      font-size: 0.9375rem;
     }
-    .diagnostic-form.hidden { display: none; }
+
+    /* Hide form when success is shown */
+    .form-wrapper.hidden {
+      display: none;
+    }
+
+    /* Hidden inputs for scores (sent to Formspree, not shown to user) */
+    .hidden-scores {
+      display: none;
+    }
   </style>
 </head>
 <body>
-  <div class="app">
-    <section class="calibration" aria-label="Calibration">
-      <h1>Pricing Health Diagnostic</h1>
-      <p>An analytical instrument that evaluates the economic integrity of your pricing model. The following calibration explains the methodology and how your responses are used.</p>
+  <div class="container">
+    <header>
+      <p class="eyebrow">Structural Diagnostic</p>
+      <h1>Hiring Readiness Analysis</h1>
+      <p class="tagline">Evaluate whether your organisation’s internal systems are prepared to support additional staff—before new decision pathways and dependencies create operational pressure.</p>
+    </header>
+
+    <!-- Calibration introduction -->
+    <section class="calibration" aria-label="What this analysis measures">
       <h2>What this analysis measures</h2>
-      <p>Delivery cost integrity, operating structure resilience, profit model sustainability, market positioning coherence, and revenue architecture. Together these dimensions indicate whether your current pricing supports sustainable growth.</p>
-      <h2>Why this structural signal matters</h2>
-      <p>Pricing that is misaligned with costs and market position creates hidden risk: margin erosion, break-even fragility, and decision ownership gaps between commercial and finance. This diagnostic surfaces those patterns before they become operational crises.</p>
-      <h2>What the responses will be used to evaluate</h2>
-      <p>Your inputs are analysed against established benchmarks and structural norms. The evaluation identifies key structural risks, decision ownership gaps, and areas of operational fragility specific to the scores derived from your data—not generic advice.</p>
+      <p><strong>What this analysis measures</strong><br>This instrument evaluates the structural readiness of your organisation to absorb new hires. It assesses role clarity, operational infrastructure, leadership capacity, decision authority, and financial preparedness.</p>
+      <p><strong>Why this structural signal matters</strong><br>When a new employee enters an organisation, they introduce new decision pathways, communication flows, and operational dependencies. If internal structure is not prepared to absorb these changes, hiring can create more operational pressure than relief.</p>
+      <p><strong>What your responses will be used to evaluate</strong><br>Your responses are analysed to identify key structural risks, decision ownership gaps, and areas of operational fragility. The output is a diagnostic report that pinpoints where to strengthen systems before or alongside scaling headcount.</p>
     </section>
 
-    <section class="report-outcome" aria-label="Report outcome">
-      <p><strong>You will receive a world-class diagnostic report by email.</strong> Your responses are analysed off-screen; no results are displayed here. The report interprets your inputs across these dimensions, highlights structural patterns, and provides targeted guidance—delivered to your inbox within 24 hours.</p>
-    </section>
-
-    <form id="diagnosticForm" class="diagnostic-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-      <div class="dimensions">
-        <div class="dimension">
-          <h3>Revenue Architecture</h3>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="unitPrice">Selling price per unit</label>
-              <input type="number" id="unitPrice" name="unit_price" min="0" step="0.01" value="100" required>
-            </div>
-            <div class="form-group">
-              <label for="volume">Expected monthly volume (units)</label>
-              <input type="number" id="volume" name="volume" min="0" step="1" value="500" required>
-            </div>
-          </div>
-        </div>
-        <div class="dimension">
-          <h3>Delivery Cost Integrity</h3>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="cogs">Cost of goods sold per unit (COGS)</label>
-              <input type="number" id="cogs" name="cogs_per_unit" min="0" step="0.01" value="35">
-            </div>
-            <div class="form-group">
-              <label for="variableCost">Other variable cost per unit</label>
-              <input type="number" id="variableCost" name="variable_cost_per_unit" min="0" step="0.01" value="10">
-            </div>
-          </div>
-        </div>
-        <div class="dimension">
-          <h3>Operating Structure Resilience</h3>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="fixedCosts">Fixed costs per month</label>
-              <input type="number" id="fixedCosts" name="fixed_costs_monthly" min="0" step="0.01" value="15000">
-            </div>
-            <div class="form-group">
-              <label for="overheadPct">Overhead / indirect cost (% of revenue)</label>
-              <input type="number" id="overheadPct" name="overhead_pct" min="0" max="100" step="0.1" value="10">
-            </div>
-          </div>
-        </div>
-        <div class="dimension">
-          <h3>Profit Model Sustainability</h3>
-          <div class="form-group">
-            <label for="targetMargin">Target profit margin (%)</label>
-            <input type="number" id="targetMargin" name="target_margin_pct" min="0" max="100" step="0.1" value="20">
-          </div>
-        </div>
-        <div class="dimension">
-          <h3>Market Positioning Coherence</h3>
-          <div class="form-group">
-            <label for="benchmarkPrice">Market benchmark price (optional)</label>
-            <input type="number" id="benchmarkPrice" name="benchmark_price" min="0" step="0.01" placeholder="Leave blank if not applicable">
-          </div>
-        </div>
-      </div>
-      <section class="lead-section">
-        <h3>Receive your diagnostic report</h3>
-        <div class="lead-grid">
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" required placeholder="Full name">
-          </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required placeholder="Email address">
-          </div>
-          <div class="form-group">
-            <label for="company">Company</label>
-            <input type="text" id="company" name="company" required placeholder="Company name">
-          </div>
-          <div class="form-group">
-            <label for="position">Position</label>
-            <input type="text" id="position" name="position" required placeholder="Job title / position">
-          </div>
-        </div>
+    <form id="diagnostic-form" action="https://formspree.io/f/xreyzjwp" method="POST">
+      <!-- Dimensions (scores collected but not displayed as a "result" - only sent to you via Formspree) -->
+      <section class="dimensions-intro">
+        <h2>Diagnostic dimensions</h2>
+        <p>Rate each dimension from 1 (significant gaps) to 10 (fully prepared). Your answers are used to build your personalised diagnostic report.</p>
       </section>
-      <div class="submit-wrap">
-        <button type="submit" id="submitBtn">Submit for diagnostic report</button>
+
+      <div class="form-wrapper">
+        <!-- Role Definition Integrity -->
+        <div class="dimension">
+          <div class="dimension-header">
+            <span class="dimension-name">Role Definition Integrity</span>
+            <span class="dimension-value" data-dimension="role">5</span>
+          </div>
+          <p class="dimension-desc">Clarity of role boundaries, expectations, and handoffs so new hires integrate without ambiguity.</p>
+          <input type="range" name="role_definition_integrity" id="role" min="1" max="10" value="5" aria-label="Role Definition Integrity score 1 to 10">
+          <div class="scale-labels"><span>1 — Significant gaps</span><span>10 — Fully prepared</span></div>
+        </div>
+
+        <!-- Operational Infrastructure -->
+        <div class="dimension">
+          <div class="dimension-header">
+            <span class="dimension-name">Operational Infrastructure</span>
+            <span class="dimension-value" data-dimension="ops">5</span>
+          </div>
+          <p class="dimension-desc">Systems, tools, and processes that can scale with additional people without creating bottlenecks.</p>
+          <input type="range" name="operational_infrastructure" id="ops" min="1" max="10" value="5" aria-label="Operational Infrastructure score 1 to 10">
+          <div class="scale-labels"><span>1 — Significant gaps</span><span>10 — Fully prepared</span></div>
+        </div>
+
+        <!-- Leadership Capacity -->
+        <div class="dimension">
+          <div class="dimension-header">
+            <span class="dimension-name">Leadership Capacity</span>
+            <span class="dimension-value" data-dimension="leadership">5</span>
+          </div>
+          <p class="dimension-desc">Bandwidth and clarity of leadership to onboard, direct, and develop new team members.</p>
+          <input type="range" name="leadership_capacity" id="leadership" min="1" max="10" value="5" aria-label="Leadership Capacity score 1 to 10">
+          <div class="scale-labels"><span>1 — Significant gaps</span><span>10 — Fully prepared</span></div>
+        </div>
+
+        <!-- Decision Authority Distribution -->
+        <div class="dimension">
+          <div class="dimension-header">
+            <span class="dimension-name">Decision Authority Distribution</span>
+            <span class="dimension-value" data-dimension="decision">5</span>
+          </div>
+          <p class="dimension-desc">Clear ownership of decisions so new hires know who has authority and where escalation goes.</p>
+          <input type="range" name="decision_authority_distribution" id="decision" min="1" max="10" value="5" aria-label="Decision Authority Distribution score 1 to 10">
+          <div class="scale-labels"><span>1 — Significant gaps</span><span>10 — Fully prepared</span></div>
+        </div>
+
+        <!-- Financial Readiness -->
+        <div class="dimension">
+          <div class="dimension-header">
+            <span class="dimension-name">Financial Readiness</span>
+            <span class="dimension-value" data-dimension="financial">5</span>
+          </div>
+          <p class="dimension-desc">Budget, runway, and cost structure that can sustain new roles without destabilising operations.</p>
+          <input type="range" name="financial_readiness" id="financial" min="1" max="10" value="5" aria-label="Financial Readiness score 1 to 10">
+          <div class="scale-labels"><span>1 — Significant gaps</span><span>10 — Fully prepared</span></div>
+        </div>
+
+        <!-- Report outcome promise -->
+        <section class="report-outcome">
+          <h2>Your report</h2>
+          <p>Upon submission you will receive <strong style="color: var(--accent);">a world-class diagnostic report</strong> that synthesises your responses across these dimensions and identifies where your organisation is strong and where to act before hiring.</p>
+        </section>
+
+        <!-- Contact form -->
+        <section class="form-section">
+          <h2>Submit your analysis</h2>
+          <p style="font-size: 0.9rem; color: var(--text); margin-bottom: 1.25rem;">Enter your details to receive your personalised diagnostic report.</p>
+          <div class="form-grid">
+            <div>
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" required placeholder="Full name">
+            </div>
+            <div>
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required placeholder="you@company.com">
+            </div>
+            <div>
+              <label for="company">Company</label>
+              <input type="text" id="company" name="company" required placeholder="Organisation name">
+            </div>
+            <div>
+              <label for="position">Position</label>
+              <input type="text" id="position" name="position" required placeholder="Your role or title">
+            </div>
+          </div>
+          <button type="submit" id="submit-btn">Submit for diagnostic report</button>
+        </section>
+      </div>
+
+      <!-- Success message (shown after submit, no scores on screen) -->
+      <div class="success-message" id="success-message" aria-live="polite">
+        <h2>Your analysis has been received.</h2>
+        <p>The responses are now being reviewed to identify structural patterns within your organisation.</p>
+        <p>A diagnostic report will be delivered within 24 hours.</p>
       </div>
     </form>
-
-    <section class="confirmation" id="confirmation" aria-live="polite">
-      <h2>Your analysis has been received.</h2>
-      <p>The report will be delivered by Kaylee-Jane within 24 hours.</p>
-    </section>
   </div>
 
   <script>
     (function () {
-      var form = document.getElementById('diagnosticForm');
-      var confirmation = document.getElementById('confirmation');
-      var submitBtn = document.getElementById('submitBtn');
+      var form = document.getElementById('diagnostic-form');
+      var formWrapper = document.querySelector('.form-wrapper');
+      var successMessage = document.getElementById('success-message');
+      var submitBtn = document.getElementById('submit-btn');
+
+      // Update dimension value labels when sliders change
+      document.querySelectorAll('input[type="range"]').forEach(function (slider) {
+        slider.addEventListener('input', function () {
+          var el = document.querySelector('.dimension-value[data-dimension="' + this.id + '"]');
+          if (el) el.textContent = this.value;
+        });
+      });
+
       form.addEventListener('submit', function (e) {
         e.preventDefault();
         submitBtn.disabled = true;
         submitBtn.textContent = 'Submitting…';
+
         var formData = new FormData(form);
-        var company = (form.querySelector('[name="company"]') || {}).value || 'Unknown';
-        var name = (form.querySelector('[name="name"]') || {}).value || 'Unknown';
-        var email = (form.querySelector('[name="email"]') || {}).value || '';
-        formData.set('_subject', 'Pricing Health Diagnostic – ' + company + ' – ' + name);
-        if (email) formData.set('_replyto', email);
-        var action = form.getAttribute('action');
-        fetch(action, {
-          method: 'POST',
-          body: formData,
-          headers: { Accept: 'application/json' }
-        })
-          .then(function (res) {
-            if (res.ok) {
-              form.classList.add('hidden');
-              confirmation.classList.add('visible');
-            } else {
-              return res.json().then(function (data) {
-                throw new Error(data.error || 'Submission failed');
-              });
-            }
-          })
-          .catch(function (err) {
+        var xhr = new XMLHttpRequest();
+
+        xhr.open('POST', form.action);
+        xhr.setRequestHeader('Accept', 'application/json');
+
+        xhr.onload = function () {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            formWrapper.classList.add('hidden');
+            successMessage.classList.add('visible');
+          } else {
             submitBtn.disabled = false;
             submitBtn.textContent = 'Submit for diagnostic report';
-            alert(err.message || 'Something went wrong. Please try again.');
-          });
+            alert('Something went wrong. Please try again or contact us.');
+          }
+        };
+
+        xhr.onerror = function () {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Submit for diagnostic report';
+          alert('Something went wrong. Please try again or contact us.');
+        };
+
+        xhr.send(formData);
       });
     })();
   </script>
